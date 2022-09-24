@@ -1,0 +1,36 @@
+dist: build
+builds:
+  - binary: yaml_utils
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+    goarch:
+      - amd64
+      - arm
+      - arm64
+    goarm:
+      - 7
+    ignore:
+      - goos: darwin
+        goarch: arm
+    flags:
+      - -v
+    ldflags:
+        - -s -w -X main.version=v{{.Version}} -X main.commit={{.ShortCommit}} -X main.buildDate={{.Date}}
+    no_unique_dist_dir: true
+
+archives:
+  - name_template: "{{ .ProjectName }}-{{ .Version }}.{{ .Os }}-{{ .Arch }}"
+    wrap_in_directory: true
+snapshot:
+  name_template: "{{ .ShortCommit }}"
+changelog:
+  skip: true
+release:
+  github:
+    owner: percona-csalguero
+    name: yaml_utils
+  draft: true
+  prerelease: auto
