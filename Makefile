@@ -22,4 +22,5 @@ check:                            ## Run checks/linters for the whole project
 	bin/go-consistent -pedantic -exclude "tests" ./...
 	cd tests && ../bin/go-consistent -pedantic ./...
 	bin/golangci-lint run
-
+release:                          ## Generate files using goreleaser
+	goreleaser release --snapshot --rm-dist
